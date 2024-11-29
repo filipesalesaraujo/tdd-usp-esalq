@@ -2,7 +2,6 @@ from infra.user.in_memory_user_repository import InMemoryUserRepository
 from application.user.create_user_use_case import (
     CreateUserUseCase,
     CreateUserRequest,
-    CreateUserResponse,
 )
 from uuid import UUID
 
