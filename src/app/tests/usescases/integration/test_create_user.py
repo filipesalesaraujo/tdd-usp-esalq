@@ -1,5 +1,4 @@
-from unittest.mock import MagicMock
-from domain.user.user_repository_interface import UserRepositoryInterface
+from infra.user.in_memory_user_repository import InMemoryUserRepository
 from application.user.create_user_use_case import (
     CreateUserUseCase,
     CreateUserRequest,
@@ -11,15 +10,15 @@ from uuid import UUID
 class TestCreateUser:
     # TESTE PARA CRIAR UM USUARIO COM DADOS VALIDOS
     def test_create_user_with_valid_data(self):
-        mock_repository = MagicMock(UserRepositoryInterface)
+        repository = InMemoryUserRepository()
 
-        use_case = CreateUserUseCase(repository=mock_repository)
+        use_case = CreateUserUseCase(repository=repository)
 
         request = CreateUserRequest(name="Test User")
 
         response = use_case.execute(request)
-
-        assert response.id is not None
-        assert isinstance(response, CreateUserResponse)
+        assert len(repository.users) == 1
         assert isinstance(response.id, UUID)
-        assert mock_repository.save.called is True
+        persited_user = repository.users[0]
+        assert persited_user.id == response.id
+        assert persited_user.name == "Test User"
