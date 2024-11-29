@@ -38,3 +38,18 @@ class TestGetUserById:
         repository.save(user2)
         user = repository.get_by_id(user_id=uuid4())
         assert user == None
+
+
+class TestUpdateUser:
+
+    # TESTE PARA TESTAR SE E POSSIVEL ATUALZIAR O NOME DE UM USUARIO
+    def test_update_user(self):
+        repository = InMemoryUserRepository()
+        user1 = User(id=uuid4(), name="Test User 1")
+        user2 = User(id=uuid4(), name="Test User 2")
+        repository.save(user1)
+        repository.save(user2)
+        user1.name = "Test User 1 Updated"
+        repository.update(user1)
+        updated_user = repository.get_by_id(user_id=user1.id)
+        assert updated_user.name == "Test User 1 Updated"
