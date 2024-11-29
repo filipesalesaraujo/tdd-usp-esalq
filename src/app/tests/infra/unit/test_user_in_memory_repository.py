@@ -28,3 +28,13 @@ class TestGetUserById:
         user = repository.get_by_id(user1.id)
         assert user.id == user1.id
         assert user.name == user1.name
+
+    # testar se o metodo get_by_id do InMemoryUserRepository esta retornando o usuario correto
+    def test_when_user_does_not_exist_should_return_none(self):
+        repository = InMemoryUserRepository()
+        user1 = User(id=uuid4(), name="Test User 1")
+        user2 = User(id=uuid4(), name="Test User 2")
+        repository.save(user1)
+        repository.save(user2)
+        user = repository.get_by_id(user_id=uuid4())
+        assert user == None
